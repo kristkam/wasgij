@@ -1,8 +1,7 @@
-import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
-import { darkTheme, lightTheme } from "./defaultTheme";
 import { GlobalStyles } from "./globalStyles";
 import { puzzles }  from "./puzzles";
+import { darkTheme } from "./defaultTheme";
 
 const AppContainer = styled.div`
   display: flex;
@@ -42,10 +41,9 @@ const Image = styled.img`
 `;
 
 function App() {
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
-  
+
   return (
-    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+    <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
       <AppContainer>
         <Title>Wasgij</Title>
