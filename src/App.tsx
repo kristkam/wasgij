@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./globalStyles";
 import { puzzles }  from "./puzzles";
@@ -42,13 +43,19 @@ const Image = styled.img`
 
 function App() {
 
+  const [searchFilter, setSearchFilter] = useState("");
+
+  const filteredPuzzles = puzzles.filter((puzzle) => {
+    return puzzle.title.toLocaleLowerCase().includes(searchFilter.toLowerCase())
+  });
+
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
       <AppContainer>
         <Title>Wasgij</Title>
-          <Input type="search" placeholder="Search..." />
-          {puzzles.map((puzzle) => (
+          <Input type="search" onChange={(e) => setSearchFilter(e.target.value)} placeholder="Search..." />
+          {filteredPuzzles.map((puzzle) => (
             <div>
               <TextBox key={puzzle.title}>{puzzle.title}</TextBox>
               <Image src={puzzle.image_url} alt={puzzle.title} />
