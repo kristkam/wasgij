@@ -9,10 +9,11 @@ type AppProps = {
 };
 
 const StyledButton = styled.button`
-  background-color: ${(props) => props.theme.colors.primary.purple};
-  color: ${(props) => props.theme.colors.neutral.offWhite};
+  background-color: ${(props) => props.theme.colors.accents.primary};
+  color: ${(props) => props.theme.colors.text.primary};
   border: none;
-  padding: 10px 20px;
+  margin-top: 20px;
+  padding: 8px;
   border-radius: 5px;
   font-size: 1rem;
   font-weight: bold;
@@ -20,17 +21,17 @@ const StyledButton = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: ${(props) => props.theme.colors.primary.coral};
-    color: ${(props) => props.theme.colors.secondary.teal};
+    background-color: ${(props) => props.theme.colors.background.surface};
+    color: ${(props) => props.theme.colors.accents.highlight};
   }
 
   &:active {
-    background-color: ${(props) => props.theme.colors.primary.coral};
+    background-color: ${(props) => props.theme.colors.accents.highlight};
   }
 
   &:disabled {
-    background-color: ${(props) => props.theme.colors.neutral.lightGray};
-    color: ${(props) => props.theme.colors.neutral.charcoalGray};
+    background-color: ${(props) => props.theme.colors.background.surface};
+    color: ${(props) => props.theme.colors.text.disabled};
     cursor: not-allowed;
   }
 `;
