@@ -69,7 +69,7 @@ const TopContainer = styled.div`
   margin: 0 15px 0 15px;
   
   @media (max-width: 768px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: center;
     gap: 8px;
     margin: 0 15px 15px 15px;
@@ -134,10 +134,15 @@ const Chip = styled.div`
   border-radius: 16px;
   font-weight: 500;
   cursor: pointer;
+  font-weight: bold;
 
   &:hover {
     background-color: ${(props) => props.theme.colors.accents.secondary};
     color: ${(props) => props.theme.colors.text.primary};
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
   }
 `;
 
