@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
   * {
     /* max-width: 1280px; */
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
     /* padding: 2rem; */
     text-align: center;
@@ -16,6 +16,6 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: ${(props) => props.theme.typography.fontFamily};
-    background-color: ${(props) => props.theme.colors.background};
+    background-color: ${(props) => props.theme.colors.background.primary};
   }
 `;
