@@ -1,39 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./globalStyles";
-import { puzzles }  from "./puzzles";
-import { darkTheme } from "./defaultTheme";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebaseConfig";
+import { puzzles } from "./puzzles";
+import { darkTheme2 } from "./defaultTheme";
+import * as motion from "motion/react-client";
+import { AnimatePresence } from "motion/react";
+import { Button } from "./components";
 
 const AppContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* align-items: center;
-  justify-content: flex-start; */
-  /* flex-wrap: wrap; */
-  /* gap: 8px; */
   min-height: 100%;
 `;
 
 const Title = styled.h1`
-  color: ${(props) => props.theme.colors.primary.purple};
+  color: ${(props) => props.theme.colors.text.primary};
   font-size: 2rem;
   font-weight: bold;
   margin: 20px 0;
 `;
 
 const Input = styled.input`
-  margin: 20px 0;
-  padding: 10px;
+  padding: 8px;
   font-size: 1rem;
-  border: 1px solid ${(props) => props.theme.colors.neutral.lightGray};
+  border: 1px solid ${(props) => props.theme.colors.background.surface};
   border-radius: 5px;
-  width: 200px;
+  width: 450px;
+  text-align: left;
+  background-color: ${(props) => props.theme.colors.background.surface};
 `;
 
 const TextBox = styled.div`
-  color: ${(props) => props.theme.colors.neutral.charcoalGray};
+  color: ${(props) => props.theme.colors.text.primary};
   font-size: 1rem;
   margin: 10px 0;
   text-align: center;
@@ -42,61 +38,160 @@ const TextBox = styled.div`
 const Image = styled.img`
   width: 200px;
   height: auto;
-  margin: 10px;
+  margin: 8px;
+  cursor: pointer;
+`;
+
+const PuzzleContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+const Container = styled.div`
+  padding: 16px;
+  margin: 16px;
+`;
+
+const Card = styled.div`
+  flex: 1 0 400px;
+  padding: 16px;
+  margin: 16px;
+  border: 1px;
+  border-radius: 8px;
+  background-color: ${(props) => props.theme.colors.background.surface};
+  max-width: 500px;
+`;
+
+const Overlay = styled(motion.div)`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+const ModalContainer = styled(motion.div)`
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 800px;
+  position: relative;
+`;
+
+const CloseButton = styled(Button)`
+  font-size: 24px;
+  cursor: pointer;
+`;
+
+const Chip = styled.div`
+  background-color: ${(props) => props.theme.colors.background.surface};
+  color: ${(props) => props.theme.colors.text.primary};
+  font-size: 1rem;
+  padding: 8px 16px;
+  border-radius: 16px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors.accents.secondary};
+    color: ${(props) => props.theme.colors.text.primary};
+  }
 `;
 
 function App() {
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [items, setItems] = useState<{ id: string; [key: string]: any }[]>([]);
+  const [open, setOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const [searchFilter, setSearchFilter] = useState("");
 
-  const filteredPuzzles = puzzles.filter((puzzle) => {
-    return puzzle.title.toLocaleLowerCase().includes(searchFilter.toLowerCase())
-  });
+  const puzzleCategories = Array.from(
+    new Set(
+      puzzles.map(
+        puzzle => puzzle.category
+      )
+    )
+  );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, "items"));
-
-      const data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      setItems(data);
-    };
-
-    fetchData();
-  }, []);
+  const filteredPuzzles = puzzles.filter(
+    ({ title, category }) =>
+      title.toLocaleLowerCase().includes(searchFilter.toLowerCase()) ||
+      category.toLocaleLowerCase().includes(searchFilter.toLowerCase())
+  );
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={darkTheme2}>
       <GlobalStyles />
       <AppContainer>
-        <div>
-          <Title>Wasgij</Title>
-          <Input 
-            type="search" 
-            onChange={(e) => setSearchFilter(e.target.value)} 
-            placeholder="Search..." 
-          />
-        </div>
-
-        <h3>Firebase data</h3>
-
-        {items.map((item, index) => (
-          <div key={index + item.name}>{item.name}</div>
-        ))}
-
-        <div style={{ display: "flex", flexWrap: "wrap", flex: "1 0", padding: "0 100px" }}>
-          {filteredPuzzles.map((puzzle) => (
-            <div style={{ flex: "1 0 200px", gap: "10px" }}>
-              <TextBox key={puzzle.title}>{puzzle.title}</TextBox>
-              <Image src={puzzle.image_url} alt={puzzle.title} />
+        <Title>Wasgij</Title>
+        {/* <UnderTitle>Firebase data</UnderTitle> */}
+        {/* <FirebaseContainer>
+          {fireBaseItems.map((item, index) => (
+            <div style={{ padding: "10px" }}>
+              <TextBox key={index + item.name}>{item.name}</TextBox>
             </div>
           ))}
-        </div>
+        </FirebaseContainer> */}
+
+        <Container>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "nowrap", margin: "0 15px 0 15px" }}>
+            <div style={{ display: "flex", gap: "8px" }}>
+              {puzzleCategories.map((category) => (
+                <Chip style={{ textTransform: "capitalize" }}>{category}</Chip>
+              ))}
+              </div>
+            <Input
+              type="search"
+              onChange={(e) => setSearchFilter(e.target.value)}
+              placeholder="Search..."
+            />
+          </div>
+          <PuzzleContainer>
+            {filteredPuzzles.map((puzzle) => (
+              <Card>
+                <h2 style={{ color: "#FFC107", textTransform: "capitalize" }}>{puzzle.category}</h2>
+                <TextBox key={puzzle.title}>{puzzle.title}</TextBox>
+                <motion.div
+                  initial={{ scale: 1 }}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <Image
+                    src={puzzle.image_url}
+                    alt={puzzle.title}
+                    onClick={() => {
+                      setOpen(!open)
+                      setImageUrl(puzzle.image_url)
+                    }}
+                  />
+                </motion.div>
+                
+              </Card>
+            ))}
+            <AnimatePresence>
+              {open && (
+                <Overlay 
+                  layout
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ModalContainer
+                    layout
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+                  >
+                    <CloseButton onClick={() => setOpen(false)}>✕</CloseButton>
+                    <img style={{ width: "100%", height: "70vh" }} src={imageUrl} onClick={() => setOpen(false)} />
+                  </ModalContainer>
+                </Overlay>   
+              )}
+            </AnimatePresence>
+
+          </PuzzleContainer>
+        </Container>
       </AppContainer>
     </ThemeProvider>
   );
