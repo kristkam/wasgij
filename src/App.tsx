@@ -26,6 +26,10 @@ const Input = styled.input`
   width: 450px;
   text-align: left;
   background-color: ${(props) => props.theme.colors.background.surface};
+
+  @media (max-width: 768px) {
+    width: 350px;
+  }
 `;
 
 const TextBox = styled.div`
@@ -40,15 +44,48 @@ const Image = styled.img`
   height: auto;
   margin: 8px;
   cursor: pointer;
+  /* object-fit: cover; */
 `;
 
 const PuzzleContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
+
 const Container = styled.div`
   padding: 16px;
   margin: 16px;
+
+  @media (max-width: 768px) {
+    padding: 4px;
+    margin: 4px;
+  }
+`;
+
+const TopContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  margin: 0 15px 0 15px;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 15px 15px 15px;
+    align-items: center;
+    padding: 2px;
+  }
+`;
+
+const ChipContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  
+  @media (max-width: 768px) {
+    justify-content: center;
+    gap: 4px;
+  }
 `;
 
 const Card = styled.div`
@@ -59,6 +96,11 @@ const Card = styled.div`
   border-radius: 8px;
   background-color: ${(props) => props.theme.colors.background.surface};
   max-width: 500px;
+
+  @media (max-width: 768px) {
+    max-width: 350px;
+    object-fit: cover;
+  }
 `;
 
 const Overlay = styled(motion.div)`
@@ -133,18 +175,18 @@ function App() {
         </FirebaseContainer> */}
 
         <Container>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "nowrap", margin: "0 15px 0 15px" }}>
-            <div style={{ display: "flex", gap: "8px" }}>
+          <TopContainer>
+            <ChipContainer>
               {puzzleCategories.map((category) => (
                 <Chip style={{ textTransform: "capitalize" }}>{category}</Chip>
               ))}
-              </div>
+              </ChipContainer>
             <Input
               type="search"
               onChange={(e) => setSearchFilter(e.target.value)}
               placeholder="Search..."
             />
-          </div>
+          </TopContainer>
           <PuzzleContainer>
             {filteredPuzzles.map((puzzle) => (
               <Card>
