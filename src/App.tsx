@@ -1,11 +1,12 @@
 import { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./globalStyles";
-import { puzzles } from "./puzzles";
 import { darkTheme2 } from "./defaultTheme";
 import * as motion from "motion/react-client";
 import { AnimatePresence } from "motion/react";
 import { Button } from "./components";
+import { uploadFirebaseData } from "./uploadFirebaseData";
+import UseFetchFirebaseData from "./useFetchFirebaseData";
 
 const AppContainer = styled.div`
   min-height: 100%;
@@ -151,15 +152,20 @@ function App() {
   const [imageUrl, setImageUrl] = useState("");
   const [searchFilter, setSearchFilter] = useState("");
 
-  const puzzleCategories = Array.from(
-    new Set(
-      puzzles.map(
-        puzzle => puzzle.category
-      )
-    )
-  );
+  const puzzlesFromFirebase = UseFetchFirebaseData();
 
-  const filteredPuzzles = puzzles.filter(
+  const puzzleKeys = puzzlesFromFirebase.reduce((result: string[], puzzle) => {
+    const { category } = puzzle;
+
+    if (!result.includes(category)) {
+      result.push(category);
+    }
+
+    return result;
+  }, []);
+
+
+  const filteredPuzzles = puzzlesFromFirebase.filter(
     ({ title, category }) =>
       title.toLocaleLowerCase().includes(searchFilter.toLowerCase()) ||
       category.toLocaleLowerCase().includes(searchFilter.toLowerCase())
@@ -170,20 +176,14 @@ function App() {
       <GlobalStyles />
       <AppContainer>
         <Title>Wasgij</Title>
-        {/* <UnderTitle>Firebase data</UnderTitle> */}
-        {/* <FirebaseContainer>
-          {fireBaseItems.map((item, index) => (
-            <div style={{ padding: "10px" }}>
-              <TextBox key={index + item.name}>{item.name}</TextBox>
-            </div>
-          ))}
-        </FirebaseContainer> */}
+
+        <Button onClick={uploadFirebaseData}>Upload data to firebase</Button>
 
         <Container>
           <TopContainer>
             <ChipContainer>
-              {puzzleCategories.map((category) => (
-                <Chip style={{ textTransform: "capitalize" }}>{category}</Chip>
+              {puzzleKeys.map((category) => (
+                <Chip key={category} style={{ textTransform: "capitalize" }}>{category}</Chip>
               ))}
               </ChipContainer>
             <Input
@@ -194,7 +194,7 @@ function App() {
           </TopContainer>
           <PuzzleContainer>
             {filteredPuzzles.map((puzzle) => (
-              <Card>
+              <Card key={puzzle.id}>
                 <h2 style={{ color: "#FFC107", textTransform: "capitalize" }}>{puzzle.category}</h2>
                 <TextBox key={puzzle.title}>{puzzle.title}</TextBox>
                 <motion.div
