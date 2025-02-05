@@ -2,16 +2,25 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
+type Puzzle = {
+  id: string;
+  title: string;
+  category: string;
+  image_url: string;
+};
+
 const UseFetchFirebaseData = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [items, setItems] = useState<{ id: string; [key: string]: any }[]>([]);
+  const [items, setItems] = useState<Puzzle[]>([]);
   
   useEffect(() => {
     const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, "items"));
+      const querySnapshot = await getDocs(collection(db, "puzzles"));
       
       const data = querySnapshot.docs.map((doc) => ({
         id: doc.id,
+        title: doc.data().title,
+        category: doc.data().category,
+        image_url: doc.data().image_url,
         ...doc.data(),
       }));
       
