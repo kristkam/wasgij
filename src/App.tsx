@@ -5,8 +5,13 @@ import { darkTheme2 } from "./defaultTheme";
 import * as motion from "motion/react-client";
 import { AnimatePresence } from "motion/react";
 import { Button } from "./components";
-import { uploadFirebaseData } from "./uploadFirebaseData";
-import UseFetchFirebaseData from "./useFetchFirebaseData";
+// import { uploadFirebaseData } from "./uploadFirebaseData";
+// import UseFetchFirebaseData from "./useFetchFirebaseData";
+// import { useQuery } from "@tanstack/react-query";
+// import { collection, getDocs } from "firebase/firestore";
+// import { db } from "./firebaseConfig";
+import usePuzzles from "./usePuzzles";
+import useUpdatePuzzle from "./useUpdatePuzzle";
 
 const AppContainer = styled.div`
   min-height: 100%;
@@ -68,7 +73,7 @@ const TopContainer = styled.div`
   justify-content: space-between;
   flex-wrap: nowrap;
   margin: 0 15px 0 15px;
-  
+
   @media (max-width: 768px) {
     flex-direction: column-reverse;
     justify-content: center;
@@ -124,7 +129,9 @@ const ModalContainer = styled(motion.div)`
 
 const CloseButton = styled(Button)`
   font-size: 24px;
+  width: 3rem;
   cursor: pointer;
+  margin: 0;
 `;
 
 const Chip = styled.div`
@@ -147,14 +154,74 @@ const Chip = styled.div`
   }
 `;
 
+const Spinner = styled(motion.div)`
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  border: 4px solid #3b82f6; /* Blue color */
+  border-top-color: transparent;
+  border-radius: 50%;
+  margin-top: 20px;
+`;
+
+const ToggleContainer = styled.div<{ checked: boolean }>`
+  display: flex;
+  background-color: ${props => !props.checked ? props.theme.colors.accents.primary : props.theme.colors.accents.success};
+  justify-content: ${props => props.checked ? "end" : "start"};
+  padding: 4px;
+  border-radius: 50px;
+  cursor: pointer;
+  width: 50px;
+  margin-Top: 8px;
+`;
+
+const Toggle = styled(motion.div)`
+  background-color: ${(props) => props.theme.colors.accents.highlight};
+  border-radius: 50%; 
+  width: 18px; 
+  height: 18px;
+`;
+
 function App() {
   const [open, setOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [searchFilter, setSearchFilter] = useState("");
 
-  const puzzlesFromFirebase = UseFetchFirebaseData();
+  // const { 
+  //   isPending,
+  //   isError, 
+  //   data: puzzlesFromFirebase = [], 
+  //   error 
+  // } = useQuery({ 
+  //   queryKey: ["puzzles"], 
+  //   queryFn: fetchPuzzles
+  // });
 
-  const puzzleKeys = puzzlesFromFirebase.reduce((result: string[], puzzle) => {
+  const { puzzles: puzzlesFromHook, loading } = usePuzzles();
+  console.log('puzzlesFromHook', puzzlesFromHook)
+
+  type Puzzle = {
+    id: string;
+    title: string;
+    category: string;
+    image_url: string;
+    checked: boolean;
+  };
+
+  const updatePuzzle = useUpdatePuzzle();
+  
+  const toogleChecked = (puzzle: Puzzle) => {
+    updatePuzzle.mutate({ id: puzzle.id, newData: puzzle });
+  };
+
+  // console.log('data', puzzlesFromFirebase)
+
+  
+  // if (isError) {
+  //   return <span>Error: {error.message}</span>
+  // }
+
+const puzzleKeys = puzzlesFromHook.reduce((result: string[], puzzle) => {
     const { category } = puzzle;
 
     if (!result.includes(category)) {
@@ -165,7 +232,7 @@ function App() {
   }, []);
 
 
-  const filteredPuzzles = puzzlesFromFirebase.filter(
+  const filteredPuzzles = puzzlesFromHook.filter(
     ({ title, category }) =>
       title.toLocaleLowerCase().includes(searchFilter.toLowerCase()) ||
       category.toLocaleLowerCase().includes(searchFilter.toLowerCase())
@@ -177,8 +244,16 @@ function App() {
       <AppContainer>
         <Title>Wasgij</Title>
 
-        <Button onClick={uploadFirebaseData}>Upload data to firebase</Button>
-
+        {/* <Button onClick={uploadFirebaseData}>Upload data to firebase</Button> */}
+        {loading && (
+          <div>
+            <Spinner
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 1, easing: "linear" }}
+            />
+          </div>
+        )}
+        
         <Container>
           <TopContainer>
             <ChipContainer>
@@ -211,8 +286,22 @@ function App() {
                   />
                 </motion.div>
                 
+                <ToggleContainer 
+                  checked={puzzle.checked} 
+                  onClick={() => toogleChecked({ ...puzzle, checked: !puzzle.checked })}
+                >
+                  <Toggle
+                    layout
+                    transition={{
+                      type: "spring",
+                      visualDuration: 0.2,
+                      bounce: 0.2,
+                    }}
+                  />
+                </ToggleContainer>
               </Card>
             ))}
+
             <AnimatePresence>
               {open && (
                 <Overlay 
@@ -230,8 +319,10 @@ function App() {
                     transition={{ duration: 0.3, ease: "easeOut" }}
                     onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
                   >
-                    <CloseButton onClick={() => setOpen(false)}>✕</CloseButton>
-                    <img style={{ width: "100%", height: "70vh" }} src={imageUrl} onClick={() => setOpen(false)} />
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "end" }}>
+                      <CloseButton onClick={() => setOpen(false)}>✕</CloseButton>
+                      <img style={{ width: "100%", height: "70vh" }} src={imageUrl} onClick={() => setOpen(false)} />
+                    </div>
                   </ModalContainer>
                 </Overlay>   
               )}
