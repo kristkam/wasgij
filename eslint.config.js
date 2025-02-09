@@ -3,7 +3,7 @@ import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
-import tanstack from "eslint-plugin-@tanstack/query";
+// import tanstack from "eslint-plugin-@tanstack/query";
 
 export default tseslint.config(
   { ignores: ["dist"] },
@@ -11,7 +11,7 @@ export default tseslint.config(
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
-      "plugin:@tanstack/eslint-plugin-query/recommended",
+      // "plugin:@tanstack/eslint-plugin-query/recommended",
     ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
@@ -21,12 +21,12 @@ export default tseslint.config(
     plugins: {
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
-      "@tanstack/query": tanstack,
+      // "@tanstack/query": tanstack,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
-      "noImplicitAny": "warn",
+      // "noImplicitAny": "warn",
     },
   }
 );
