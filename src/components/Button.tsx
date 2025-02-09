@@ -12,8 +12,8 @@ const StyledButton = styled.button`
   background-color: ${(props) => props.theme.colors.accents.primary};
   color: ${(props) => props.theme.colors.text.primary};
   border: none;
-  margin-top: 20px;
-  padding: 8px;
+  /* margin-top: 20px; */
+  padding: 6px 10px;
   border-radius: 5px;
   font-size: 1rem;
   font-weight: bold;

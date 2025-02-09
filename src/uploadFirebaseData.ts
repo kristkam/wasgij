@@ -7,7 +7,10 @@ export const uploadFirebaseData = async () => {
     const collectionName = "puzzles";
     
     for (const key in puzzles) {
-      const puzzle = puzzles[key];
+      const puzzle = { 
+        ...puzzles[key], 
+        checked: false 
+      };
 
       await addDoc(collection(db, collectionName), puzzle);
     }

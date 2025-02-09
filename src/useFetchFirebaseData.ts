@@ -9,7 +9,7 @@ type Puzzle = {
   image_url: string;
 };
 
-const UseFetchFirebaseData = () => {
+const useFetchFirebaseData = () => {
   const [items, setItems] = useState<Puzzle[]>([]);
   
   useEffect(() => {
@@ -33,4 +33,4 @@ const UseFetchFirebaseData = () => {
     return items;
 };
 
-export default UseFetchFirebaseData;
+export default useFetchFirebaseData;
