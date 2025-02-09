@@ -17,6 +17,7 @@ const usePuzzles = () => {
   useEffect(() => {
     // Listen for real-time updates
     const unsubscribe = onSnapshot(collection(db, "puzzles"), (querySnapshot) => {
+      console.log("querysnapshot", (querySnapshot.docs));
       setPuzzles(
         querySnapshot.docs.map((doc) => ({
           id: doc.id,
