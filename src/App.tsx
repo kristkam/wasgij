@@ -238,6 +238,8 @@ const puzzleKeys = puzzlesFromHook.reduce((result: string[], puzzle) => {
       category.toLocaleLowerCase().includes(searchFilter.toLowerCase())
   );
 
+  console.log("Firebase Project ID:", import.meta.env.VITE_REACT_APP_FIREBASE_PROJECT_ID);
+  
   return (
     <ThemeProvider theme={darkTheme2}>
       <GlobalStyles />
