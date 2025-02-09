@@ -249,7 +249,7 @@ const puzzleKeys = puzzlesFromHook.reduce((result: string[], puzzle) => {
           <div>
             <Spinner
               animate={{ rotate: [0, 360] }}
-              transition={{ duration: 1, easing: "linear" }}
+              transition={{ duration: 1, repeat: Infinity, easing: "linear" }}
             />
           </div>
         )}
