@@ -60,7 +60,7 @@ export const darkTheme2 = {
       primary: "#1E1E2E", // Original value: #1E1E2E
       secondary: "#2A2A3C",
       surface: "#34344A", // Original value: #34344A containers, button or UI elements
-      // surface: "#1E1E2E", // containers, button or UI elements
+      // surface2: "#1E1E2E", // containers, button or UI elements
     },
     accents: {
       primary: "#8F6A9F", // interactive elements
@@ -77,7 +77,11 @@ export const darkTheme2 = {
       success: "#6A9F6A", // Green for checked items
       error: "#BF6A6A",   // Example red for errors
       warning: "#C2A36A"  // Example yellow for warnings
-    }
+    },
+    overlay: {
+      primary: "rgba(0, 0, 0, 0.5)",
+      secondary: "rgba(42, 42, 60, 0.8)",
+    },
   },
   typography: {
     fontSize: '16px',
