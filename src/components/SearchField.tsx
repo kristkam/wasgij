@@ -1,12 +1,36 @@
+import styled from "styled-components";
 
+interface SearchFieldProps {
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
+const Input = styled.input`
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid ${(props) => props.theme.colors.background.surface};
+  border-radius: 6px;
+  width: 450px;
+  text-align: left;
+  background-color: ${(props) => props.theme.colors.background.surface};
+  color: ${(props) => props.theme.colors.text.secondary};
 
-const SearchField = () => {
+  @media (max-width: 768px) {
+    width: 350px;
+  }
 
+  &::placeholder {
+    color: ${(props) => props.theme.colors.text.disabled};
+  }
+`;
+
+const SearchField = ({ onChange }: SearchFieldProps) => {
   return (
-    <div>SearchField</div>
+    <Input
+      type="search"
+      onChange={onChange}
+      placeholder="Search..."
+    />
   );
-}
+};
 
-
-export default SearchField
+export default SearchField;
