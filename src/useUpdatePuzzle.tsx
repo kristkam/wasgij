@@ -7,7 +7,8 @@ type UpdatePuzzle = {
   newData: { 
     title: string; 
     category: string; 
-    image_url: string; 
+    image_url: string;
+    checked: boolean;
   }; 
 };
 
@@ -21,27 +22,8 @@ function useUpdatePuzzle() {
 
   return useMutation({
     mutationFn: updatePuzzle,
-
-    // onMutate: async ({ id, newData }) => {
-    //   await queryClient.cancelQueries(["puzzles"]);
-
-    //   const previousPuzzles = queryClient.getQueryData(["puzzles"]);
-
-    //   // Optimistically update UI instantly
-    //   queryClient.setQueryData(["puzzles"], (oldPuzzles) =>
-    //     oldPuzzles?.map((p) => (p.id === id ? { ...p, ...newData } : p))
-    //   );
-
-    //   return { previousPuzzles }; // Save rollback data
-    // },
-
-    // onError: (err, variables, context) => {
-    //   // Roll back if Firestore fails
-    //   queryClient.setQueryData(["puzzles"], context.previousPuzzles);
-    // },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["puzzles"] }); // Ensure fresh data from Firestore
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["puzzles"]}); // Ensure fresh data from Firestore
     },
   });
   
