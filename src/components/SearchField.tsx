@@ -21,6 +21,11 @@ const Input = styled.input`
   &::placeholder {
     color: ${(props) => props.theme.colors.text.disabled};
   }
+
+  &:focus {
+    outline: none;
+    border-color: ${(props) => props.theme.colors.accents.primary};
+  };
 `;
 
 const SearchField = ({ onChange }: SearchFieldProps) => {
