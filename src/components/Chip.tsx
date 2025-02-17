@@ -1,10 +1,10 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import styled from "styled-components";
 
 interface OwnProps {
   isActive: boolean;
   onClick: () => void;
-  children: string;
+  children: string | ReactNode;
 };
 
 const StyledChip = styled.div<{ isActive: boolean }>`
