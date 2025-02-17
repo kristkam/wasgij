@@ -1,2 +1,13 @@
 export { default as Button } from './Button';
+export { default as Chip } from './Chip';
+export { default as LoadingSpinner } from './LoadingSpinner';
+export { default as Menu } from './Menu';
+export { default as MenuList } from './MenuList';
+export { default as MenuListItem } from './MenuListItem';
+export { default as Modal } from './Modal';
+export { default as PuzzleCard } from './PuzzleCard/PuzzleCard';
+export { default as PuzzleCardContent } from './PuzzleCard/PuzzleCardContent';
+export { default as PuzzleCardHeader } from './PuzzleCard/PuzzleCardHeader';
+export { default as PuzzleCategoryList } from './PuzzleCategoryList';
 export { default as SearchField } from './SearchField';
+export { default as ToggleSwitch } from './ToggleSwitch';
