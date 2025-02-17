@@ -4,12 +4,12 @@ import Chip from "./Chip";
 type PuzzleCategory = "original" | "mystery" | "christmas" | "destiny";
 
 type Puzzle = {
-  id: number;
-  name: string;
+  id: string;
+  title: string;
   category: PuzzleCategory;
   image_url: string;
   checked: boolean;
-}
+};
 
 interface OwnProps {
   puzzleCategories: PuzzleCategory[];
