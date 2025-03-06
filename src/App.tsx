@@ -1,13 +1,17 @@
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useMemo } from "react";
 import styled from "styled-components";
 import { 
   SearchField, 
   LoadingSpinner, 
   PuzzleCategoryList, 
   PuzzleCard,
-  Menu
+  Menu,
+  ThemeSwitcher,
 } from "./components";
-import usePuzzlesWithReactQuery from "./usePuzzlesWithReactQuery";
+import usePuzzlesWithReactQuery from "./hooks/usePuzzlesWithReactQuery";
+import { Puzzle, PuzzleCategory } from "./types/types";
+import useFilterdPuzzles from "./hooks/useFilteredPuzzles";
+import useCustomStore from "./store/useCustomStore";
 
 const AppContainer = styled.div`
   min-height: 100%;
@@ -39,6 +43,7 @@ const Container = styled.div`
 const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-wrap: nowrap;
   margin: 0 15px 0 15px;
 
@@ -56,21 +61,12 @@ const MenuSearchFieldContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
+  align-items: center;
 `;
 
-type PuzzleCategory = "original" | "mystery" | "christmas" | "destiny";
-
-type Puzzle = {
-  id: string;
-  title: string;
-  category: PuzzleCategory;
-  image_url: string;
-  checked: boolean;
-};
-
 function App() {
-  const [searchFilter, setSearchFilter] = useState("");
-  
+  const setSearchTerm = useCustomStore(state => state.setSearchTerm);
+
   const {
     data: puzzlesFromHook = [], 
     isPending, 
@@ -78,56 +74,45 @@ function App() {
     error,
   } = usePuzzlesWithReactQuery();
 
-const puzzleCategories = useMemo(() => puzzlesFromHook.reduce((result: PuzzleCategory[], puzzle) => {
-  const { category } = puzzle;
+  const puzzleCategories = useMemo(() => puzzlesFromHook.reduce((result: PuzzleCategory[], puzzle) => {
+    const { category } = puzzle;
 
-  if (!result.includes(category)) {
-    result.push(category);
-  }
+    if (!result.includes(category)) {
+      result.push(category);
+    }
 
-  return result;
-}, []), [puzzlesFromHook]);
+    return result;
+  }, []), [puzzlesFromHook]);
 
-const puzzlesGroupedByCategory: Record<PuzzleCategory, Puzzle[]> = puzzlesFromHook.reduce((result: Record<PuzzleCategory, Puzzle[]>, puzzle) => {
-  const { category } = puzzle as Puzzle;
+  const puzzlesGroupedByCategory: Record<PuzzleCategory, Puzzle[]> = puzzlesFromHook.reduce((result: Record<PuzzleCategory, Puzzle[]>, puzzle) => {
+    const { category } = puzzle as Puzzle;
 
-  if (!result[category]) {
-    result[category] = [];
-  }
-  result[category].push(puzzle);
+    if (!result[category]) {
+      result[category] = [];
+    }
+    result[category].push(puzzle);
 
-  return result;
-}, {} as Record<PuzzleCategory, Puzzle[]>);
+    return result;
+  }, {} as Record<PuzzleCategory, Puzzle[]>);
 
-// function getKeys<T extends object>(obj: T): Array<keyof T> {
-//   return Object.keys(obj) as Array<keyof T>;
-// };
+  // function getKeys<T extends object>(obj: T): Array<keyof T> {
+  //   return Object.keys(obj) as Array<keyof T>;
+  // };
 
-// create custom hook that handles filtering of puzzles by search term and chip selection through quick filtering++
-// 1. hook can have useSelector accessing all puzzles from store
-// 2. active chip can be selected from store
-// 3. searchTerm can be passed as props to hook? // save in localStorage??
-// 4. searchTerm should only filter puzzles based on quickFilters
-// const filteredPuzzles = useFilteredPuzzles();
+  const filteredPuzzles = useFilterdPuzzles(puzzlesFromHook);
 
-const filteredPuzzles = useMemo(() => puzzlesFromHook.filter(
-  ({ title, category }) =>
-    title.toLocaleLowerCase().includes(searchFilter.toLowerCase()) ||
-    category.toLocaleLowerCase().includes(searchFilter.toLowerCase())
-), [puzzlesFromHook, searchFilter]);
-
-  console.log("Firebase Project ID:", import.meta.env.VITE_REACT_APP_FIREBASE_PROJECT_ID);
-  
-  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => setSearchFilter(e.target.value);
-
+  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value);
   
   if (isError) {
     return <span>Error: {error.message}</span>
   };
+  
+  console.log("Firebase Project ID:", import.meta.env.VITE_REACT_APP_FIREBASE_PROJECT_ID);
 
   return (
     <AppContainer>
       <Title>Wasgij</Title>
+      <ThemeSwitcher />
 
       {/* <Button onClick={uploadFirebaseData}>Upload data to firebase</Button> */}
       {isPending && <LoadingSpinner />}
@@ -136,8 +121,7 @@ const filteredPuzzles = useMemo(() => puzzlesFromHook.filter(
         <TopContainer>
           <PuzzleCategoryList 
             puzzleCategories={puzzleCategories} 
-            puzzlesGroupedByCategory={puzzlesGroupedByCategory} 
-            totalPuzzles={puzzlesFromHook.length}
+            puzzlesGroupedByCategory={puzzlesGroupedByCategory}
           />
           
           <MenuSearchFieldContainer>
