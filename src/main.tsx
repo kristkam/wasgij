@@ -8,7 +8,9 @@ import { StyleSheetManager, ThemeProvider } from 'styled-components';
 import { shouldForwardProp } from './utils/utils.ts';
 import { Login } from './components/';
 
-scan({ enabled: true });
+if (process.env.NODE_ENV === 'development') {
+  scan({ enabled: true });
+}
 
 const queryClient = new QueryClient();
 
