@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Button } from "../components";
+import { Button } from "..";
 import styled from "styled-components";
 
 interface OwnProps {
@@ -38,6 +38,11 @@ const CloseButton = styled(Button)`
 const StyledImage = styled.img`
   width: 100%;
   height: 70vh;
+
+  @media (max-width: 768px) {
+    height: 100%;
+    width: 45vh;
+  }
 `;
 
 const Modal = ({ imageUrl, closeModal }: OwnProps) => {

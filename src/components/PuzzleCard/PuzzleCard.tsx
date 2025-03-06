@@ -1,17 +1,10 @@
 import { useState } from "react";
 import { PuzzleCardHeader, PuzzleCardContent, Modal } from '../../components';
-import ToggleSwitch from "../ToggleSwitch";
+import ToggleSwitch from "../ToogleSwitch/ToggleSwitch";
 import styled from "styled-components";
-import useUpdatePuzzle from "../../useUpdatePuzzle";
+import useUpdatePuzzle from "../../hooks/useUpdatePuzzle";
 import { AnimatePresence } from "motion/react";
-
-type Puzzle = {
-  id: string;
-  title: string;
-  category: string;
-  image_url: string;
-  checked: boolean;
-};
+import { Puzzle } from "../../types/types";
 
 interface OwnProps {
   puzzle: Puzzle
@@ -28,7 +21,6 @@ const Card = styled.div`
 
   @media (max-width: 768px) {
     max-width: 350px;
-    object-fit: cover;
   }
 `;
 

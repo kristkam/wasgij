@@ -10,25 +10,28 @@ interface OwnProps {
 const StyledChip = styled.div<{ isActive: boolean }>`
   background-color: ${(props) => props.theme.colors.background.surface};
   color: ${(props) => props.theme.colors.text.primary};
-  font-size: 1rem;
-  padding: 8px 16px;
+  font-size: 0.9rem;
+  padding: 0 16px;
   border-radius: 16px;
-  font-weight: 500;
   cursor: pointer;
   font-weight: bold;
   text-transform: capitalize;
+  align-content: center;
 
   ${(props) => props.isActive && `
     background-color: ${props.theme.colors.accents.success};
   `}
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.accents.secondary};
-    color: ${(props) => props.theme.colors.text.primary};
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${(props) => props.theme.colors.accents.secondary};
+      color: ${(props) => props.theme.colors.text.primary};
+    }
   }
 
   @media (max-width: 768px) {
     font-size: 0.8rem;
+    padding: 8px 10px;
   }
 `;
 

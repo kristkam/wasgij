@@ -1,20 +1,16 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import styled from "styled-components";
-import MenuList from "./MenuList";
+import { MenuList } from "..";
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   position: relative;
 `;
 
 const MenuIcon = styled(motion.svg)`
   display: flex;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   stroke: currentColor;
   stroke-width: 3;
   stroke-linecap: round;
@@ -25,6 +21,11 @@ const MenuIcon = styled(motion.svg)`
   
   &:focus {
     outline: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;    
   }
 `;
 
@@ -41,7 +42,7 @@ const Menu = () => {
         whileHover={{ scale: 1.1 }}
       >       
         <motion.path
-          d="m12 6 L28 6"
+          d="M12 6 L28 6"
           animate={isOpen ? { d: "M12 6 L28 18" } : { d: "M12 6 L28 6" }}
           transition={{ duration: 0.1 }}
         />
@@ -57,7 +58,7 @@ const Menu = () => {
         />
       </MenuIcon>
       <AnimatePresence>
-        {isOpen && <MenuList listItems={menuItems} />}
+        {isOpen && <MenuList isOpen={isOpen} listItems={menuItems} />}
     </AnimatePresence>
     </Container>
   );

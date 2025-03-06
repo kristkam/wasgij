@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render } from  "@testing-library/react";
-import { Button } from "./index.tsx";
+import { Button } from "../index.tsx";
 
  describe('Button', () => {
   it.skip('should render', () => {

@@ -12,9 +12,28 @@ const ListItem = styled(motion.li)`
   }
 `;
 
+const itemVariants = {
+  open: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 }
+  },
+  closed: {
+    opacity: 0,
+    y: -10,
+    transition: { duration: 0.5 }
+  }
+}
+
 const MenuListItem = ({ children }: PropsWithChildren) => {
   return (
-    <ListItem>{children}</ListItem>
-  )
-}
-export default MenuListItem
+    <ListItem 
+      whileHover={{ scale: 1.05 }} 
+      whileTap={{ scale: 0.9 }}
+      variants={itemVariants}
+    >
+      {children}
+    </ListItem>
+  );
+};
+export default MenuListItem;
