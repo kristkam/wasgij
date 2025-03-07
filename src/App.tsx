@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo } from "react";
 import { 
   SearchField, 
   LoadingSpinner, 
@@ -13,6 +13,7 @@ import useFilterdPuzzles from "./hooks/useFilteredPuzzles";
 import { getKeys } from "./utils/getKeys";
 import styled from "styled-components";
 import { createMap } from "./utils/createMap";
+import useWindowResize from "./hooks/useWindowResize";
 
 const AppContainer = styled.div`
   min-height: 100%;
@@ -83,19 +84,9 @@ function App() {
     getKeys(puzzleMap),[puzzleMap]);
 
   const filteredPuzzles = useFilterdPuzzles(puzzleData);
+  const containerHeight = useWindowResize();
 
   const loadingData = (isPending || isLoading);
-
-  const [containerHeight, setContainerHeight] = useState(window.innerHeight);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setContainerHeight(window.innerHeight);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   if (isError) {
     return <span>Error: {error.message}</span>
