@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { PuzzleCardHeader, PuzzleCardContent, Modal } from '../../components';
 import ToggleSwitch from "../ToogleSwitch/ToggleSwitch";
 import styled from "styled-components";
@@ -31,8 +31,8 @@ const PuzzleCard = ({ puzzle }: OwnProps) => {
 
   const { mutate } = useUpdatePuzzle();
 
-  const toogleChecked = () => 
-    mutate({ id, newData: { ...puzzle, checked: !checked }});
+  const toogleChecked = useCallback(() => 
+    mutate({ id, newData: { ...puzzle, checked: !checked }}), [mutate, id, puzzle, checked]);
 
   const openImage = () => {
     setOpen(!open);
@@ -66,4 +66,4 @@ const PuzzleCard = ({ puzzle }: OwnProps) => {
   );
 };
 
-export default PuzzleCard;
+export default memo(PuzzleCard);

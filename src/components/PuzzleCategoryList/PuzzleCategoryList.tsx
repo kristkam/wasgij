@@ -25,7 +25,6 @@ const StyledSpan = styled.span`
   font-size: 0.8rem;
   font-weight: bold;
   margin-left: 8px;
-  color: ${(props) => props.theme.colors.text.disabled};
 `;
 
 const PuzzleCategoryList = ({ puzzleCategories, puzzlesGroupedByCategory }: OwnProps) => { 

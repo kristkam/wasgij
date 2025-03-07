@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { memo } from "react";
 import styled from "styled-components";
 
 interface OwnProps<T> {
@@ -42,4 +43,5 @@ const ToggleSwitch = <T, >({ checked, toggleChecked }: OwnProps<T>) => {
     </ToggleContainer>
   );
 };
-export default ToggleSwitch;
+
+export default memo(ToggleSwitch);

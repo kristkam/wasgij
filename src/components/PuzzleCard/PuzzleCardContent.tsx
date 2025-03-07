@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { motion } from "motion/react";
 import styled from "styled-components";
 
@@ -24,4 +25,4 @@ const PuzzleCardContent = ({ imageProps, onClick }: OwnProps) => {
     </motion.div>
   );
 };
-export default PuzzleCardContent;
+export default memo(PuzzleCardContent);

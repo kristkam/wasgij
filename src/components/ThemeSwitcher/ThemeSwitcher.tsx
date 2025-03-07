@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Button } from "..";
 import { Moon, Sun } from "../../svg";
 import styled from "styled-components";
@@ -23,4 +23,4 @@ const ThemeSwitcher = () => {
   )
 };
 
-export default ThemeSwitcher
+export default memo(ThemeSwitcher);

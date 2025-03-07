@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PropsWithChildren } from "react";
+import { memo, PropsWithChildren } from "react";
 
 interface OwnProps {
   category: string;
@@ -36,4 +36,4 @@ const PuzzleCardHeader = ({ category, title, children }: PropsWithChildren<OwnPr
     </>
   );
 };
-export default PuzzleCardHeader;
+export default memo(PuzzleCardHeader);

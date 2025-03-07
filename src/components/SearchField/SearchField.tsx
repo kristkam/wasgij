@@ -1,8 +1,6 @@
+import { ChangeEvent } from "react";
+import useCustomStore from "../../store/useCustomStore";
 import styled from "styled-components";
-
-interface SearchFieldProps {
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
 
 const Input = styled.input`
   padding: 6px;
@@ -30,12 +28,21 @@ const Input = styled.input`
   };
 `;
 
-const SearchField = ({ onChange }: SearchFieldProps) => (
-  <Input
-    type="search"
-    onChange={onChange}
-    placeholder="Search..."
-  />
-);
+// add magnifying glass icon
+const SearchField = () => {
+  const setSearchTerm = useCustomStore(state => state.setSearchTerm);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  return (
+    <Input
+      type="search"
+      onChange={handleChange}
+      placeholder="Search..."
+    />
+  );
+};
 
 export default SearchField;
