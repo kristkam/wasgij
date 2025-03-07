@@ -18,3 +18,4 @@ export { default as Login } from './Login/Login';
 export { default as LoginForm } from './Login/LoginForm';
 export { default as LoginButton } from './Login/LoginButton';
 export { default as ThemeSwitcher } from './ThemeSwitcher/ThemeSwitcher';
+export { default as ErrorMessage } from './ErrorMessage/ErrorMessage';
