@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, memo } from "react";
 import styled from "styled-components";
 
 interface OwnProps {
@@ -21,4 +21,4 @@ const ErrorMessage = ({ isError, error }: OwnProps) => {
   return isError ? errorMessage : null
 };
 
-export default ErrorMessage;
+export default memo(ErrorMessage);
