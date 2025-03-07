@@ -5,7 +5,6 @@ import { db } from "../firebaseConfig";
 
 async function fetchPuzzles() {
   const querySnapshot = await getDocs(collection(db, "puzzles"));
-
   return querySnapshot.docs.map((doc) => ({ 
     id: doc.id,
     title: doc.data().title,
