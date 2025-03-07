@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { darkTheme } from './defaultTheme.ts';
 import { GlobalStyles } from './globalStyles.tsx';
 import { StyleSheetManager, ThemeProvider } from 'styled-components';
-import { shouldForwardProp } from './utils/utils.ts';
+import { shouldForwardProp } from './utils/shouldForwardProp.ts';
 import { Login } from './components/';
 
 if (process.env.NODE_ENV === 'development') {

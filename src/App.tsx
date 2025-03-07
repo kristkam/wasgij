@@ -1,5 +1,4 @@
-import { ChangeEvent, useMemo } from "react";
-import styled from "styled-components";
+import { useMemo, useState, useEffect } from "react";
 import { 
   SearchField, 
   LoadingSpinner, 
@@ -7,11 +6,13 @@ import {
   PuzzleCard,
   Menu,
   ThemeSwitcher,
+  ErrorMessage,
 } from "./components";
 import usePuzzlesWithReactQuery from "./hooks/usePuzzlesWithReactQuery";
-import { Puzzle, PuzzleCategory } from "./types/types";
 import useFilterdPuzzles from "./hooks/useFilteredPuzzles";
-import useCustomStore from "./store/useCustomStore";
+import { getKeys } from "./utils/getKeys";
+import styled from "styled-components";
+import { createMap } from "./utils/createMap";
 
 const AppContainer = styled.div`
   min-height: 100%;
@@ -24,10 +25,12 @@ const Title = styled.h1`
   margin: 20px 0;
 `;
 
-const PuzzleContainer = styled.div`
+const PuzzleContainer = styled.div<{ containerHeight: number }>`
   display: flex;
   flex-wrap: wrap;
-  /* overflow: scroll; // here */
+  margin: 10px 0;
+  height: ${(props) => `${props.containerHeight}px`};
+  overflow-y: auto;
 `;
 
 const Container = styled.div`
@@ -65,49 +68,42 @@ const MenuSearchFieldContainer = styled.div`
 `;
 
 function App() {
-  const setSearchTerm = useCustomStore(state => state.setSearchTerm);
-
   const {
-    data: puzzlesFromHook = [], 
+    data: puzzleData = [],
     isPending, 
+    isLoading,
     isError, 
     error,
   } = usePuzzlesWithReactQuery();
 
-  const puzzleCategories = useMemo(() => puzzlesFromHook.reduce((result: PuzzleCategory[], puzzle) => {
-    const { category } = puzzle;
+  const puzzleMap = useMemo(() => 
+    createMap(puzzleData, "category"),[puzzleData]);
 
-    if (!result.includes(category)) {
-      result.push(category);
-    }
+  const puzzleCategories = useMemo(() => 
+    getKeys(puzzleMap),[puzzleMap]);
 
-    return result;
-  }, []), [puzzlesFromHook]);
+  const filteredPuzzles = useFilterdPuzzles(puzzleData);
 
-  const puzzlesGroupedByCategory: Record<PuzzleCategory, Puzzle[]> = puzzlesFromHook.reduce((result: Record<PuzzleCategory, Puzzle[]>, puzzle) => {
-    const { category } = puzzle as Puzzle;
+  const loadingData = (isPending || isLoading);
 
-    if (!result[category]) {
-      result[category] = [];
-    }
-    result[category].push(puzzle);
+  const [containerHeight, setContainerHeight] = useState(window.innerHeight);
 
-    return result;
-  }, {} as Record<PuzzleCategory, Puzzle[]>);
+  useEffect(() => {
+    const handleResize = () => {
+      setContainerHeight(window.innerHeight);
+    };
 
-  // function getKeys<T extends object>(obj: T): Array<keyof T> {
-  //   return Object.keys(obj) as Array<keyof T>;
-  // };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-  const filteredPuzzles = useFilterdPuzzles(puzzlesFromHook);
-
-  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value);
-  
   if (isError) {
     return <span>Error: {error.message}</span>
   };
-  
-  console.log("Firebase Project ID:", import.meta.env.VITE_REACT_APP_FIREBASE_PROJECT_ID);
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("Firebase Project ID:", import.meta.env.VITE_REACT_APP_FIREBASE_PROJECT_ID);
+  };
 
   return (
     <AppContainer>
@@ -115,21 +111,22 @@ function App() {
       <ThemeSwitcher />
 
       {/* <Button onClick={uploadFirebaseData}>Upload data to firebase</Button> */}
-      {isPending && <LoadingSpinner />}
+      {!isError && <ErrorMessage isError={isError} error={error} />}
+      {loadingData && <LoadingSpinner />}
       
       <Container>
         <TopContainer>
           <PuzzleCategoryList 
             puzzleCategories={puzzleCategories} 
-            puzzlesGroupedByCategory={puzzlesGroupedByCategory}
+            puzzlesGroupedByCategory={puzzleMap}
           />
-          
           <MenuSearchFieldContainer>
             <Menu />
-            <SearchField onChange={onSearchChange} />
+            <SearchField />
           </MenuSearchFieldContainer>
         </TopContainer>
-        <PuzzleContainer>
+
+        <PuzzleContainer containerHeight={containerHeight - 200}>
           {filteredPuzzles.map((puzzle) => (
             <PuzzleCard 
               key={puzzle.id} 
