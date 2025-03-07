@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { motion } from "motion/react";
 import styled from "styled-components";
 
@@ -82,5 +83,6 @@ const MenuList = <T extends string>({ listItems, isOpen }: OwnProps<T>) => {
       ))}
     </Container>
   )
-}
-export default MenuList
+};
+
+export default memo(MenuList);

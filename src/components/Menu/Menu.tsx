@@ -1,5 +1,5 @@
+import { memo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
 import styled from "styled-components";
 import { MenuList } from "..";
 
@@ -63,4 +63,5 @@ const Menu = () => {
     </Container>
   );
 };
-export default Menu;
+
+export default memo(Menu);
