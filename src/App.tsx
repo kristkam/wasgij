@@ -32,6 +32,8 @@ const PuzzleContainer = styled.div<{ containerHeight: number }>`
   margin: 10px 0;
   height: ${(props) => `${props.containerHeight}px`};
   overflow-y: auto;
+  border: 1px solid ${(props) => props.theme.colors.background.surface};
+  border-radius: 6px;
 `;
 
 const Container = styled.div`
@@ -86,6 +88,8 @@ function App() {
   const filteredPuzzles = useFilterdPuzzles(puzzleData);
   const containerHeight = useWindowResize();
 
+  const memoizedContainerHeight = useMemo(() => containerHeight - 200 , [containerHeight]);
+
   const loadingData = (isPending || isLoading);
 
   if (isError) {
@@ -117,7 +121,7 @@ function App() {
           </MenuSearchFieldContainer>
         </TopContainer>
 
-        <PuzzleContainer containerHeight={containerHeight - 200}>
+        <PuzzleContainer containerHeight={memoizedContainerHeight}>
           {filteredPuzzles.map((puzzle) => (
             <PuzzleCard 
               key={puzzle.id} 
