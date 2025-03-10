@@ -13,7 +13,6 @@ const StyledInput = styled.input`
   padding: 0.5rem;
   border: 1px solid ${(props) => props.theme.colors.background.surface};
   background-color: ${(props) => props.theme.colors.background.surface};
-  /* border-radius: 4px; */
   border-radius: 6px;
   color: ${(props) => props.theme.colors.text.secondary};
 
