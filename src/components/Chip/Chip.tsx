@@ -24,7 +24,7 @@ const StyledChip = styled.div<{ isActive: boolean }>`
 
   @media (hover: hover) {
     &:hover {
-      background-color: ${(props) => props.theme.colors.accents.secondary};
+      background-color: ${(props) => props.theme.colors.accents.primary};
       color: ${(props) => props.theme.colors.text.primary};
     }
   }
