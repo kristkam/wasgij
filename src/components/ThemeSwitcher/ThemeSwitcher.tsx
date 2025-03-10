@@ -1,7 +1,8 @@
-import { useState, memo } from "react";
+import { memo } from "react";
 import { Button } from "..";
 import { Moon, Sun } from "../../svg";
 import styled from "styled-components";
+import useCustomStore from "../../store/useCustomStore";
 
 const Container = styled.div`
   position: absolute;
@@ -12,12 +13,20 @@ const Container = styled.div`
 `;
 
 const ThemeSwitcher = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const theme = useCustomStore((state) => state.theme);
+  const switchTheme = useCustomStore((state) => state.setTheme);
+
+  const isDarkmode = theme === "dark";
+
+  const handleThemeSwitch = () => {
+    localStorage.setItem("theme", isDarkmode ? "light" : "dark");
+    switchTheme(isDarkmode ? "light" : "dark");
+  }
 
   return (
     <Container>
-      <Button onClick={() => setIsDarkMode(!isDarkMode)}>
-        {isDarkMode ? <Moon /> : <Sun />}
+      <Button onClick={handleThemeSwitch}>
+        {isDarkmode ? <Moon /> : <Sun />}
       </Button>
     </Container>
   )
