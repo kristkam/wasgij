@@ -45,8 +45,10 @@ const ListItem = styled(motion.li)`
   cursor: pointer;
   padding: 4px 5px;
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.accents.secondary};
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${(props) => props.theme.colors.accents.primary};
+    }
   }
 `;
 

@@ -8,12 +8,13 @@ const StyledMotionButton = styled(motion.button)`
   color: white;
   padding: 0.5rem;
   border: none;
-  /* border-radius: 4px; */
   border-radius: 6px;
   cursor: pointer;
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.accents.secondary};
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${(props) => props.theme.colors.accents.secondary};
+    }
   }
 `;
 

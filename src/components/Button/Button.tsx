@@ -20,9 +20,11 @@ const StyledButton = styled.button`
   cursor: pointer;
   transition: background-color 0.3s ease;
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.background.surface};
-    color: ${(props) => props.theme.colors.accents.highlight};
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${(props) => props.theme.colors.background.surface};
+      color: ${(props) => props.theme.colors.accents.highlight};
+    }
   }
 
   &:active {
