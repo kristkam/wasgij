@@ -21,7 +21,7 @@ const ModalContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: end;
-  background: ${(props) => props.theme.colors.text.primary};
+  background: #F2F2F5;
   padding: 20px;
   border-radius: 10px;
   max-width: 800px;
