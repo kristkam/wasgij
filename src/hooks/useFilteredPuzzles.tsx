@@ -3,6 +3,12 @@ import { Puzzle } from "../types/types";
 import useCustomStore from "../store/useCustomStore";
 import { useShallow } from "zustand/shallow";
 
+enum MenuItem {
+  AllPuzzles = "All puzzles",
+  CollectedPuzzles = "Collected puzzles",
+  ToBePuzzled = "To be puzzled"
+}; 
+
 // create custom hook that handles filtering of puzzles by search term and chip selection through quick filtering++
 // 1. hook can have useSelector accessing all puzzles from store
 // 2. active chip can be selected from store
@@ -12,30 +18,33 @@ import { useShallow } from "zustand/shallow";
 const useFilterdPuzzles = (puzzlesFromHook: Array<Puzzle>) => {
   const activeCategory = useCustomStore(useShallow((state) => state.activeChip));
   const searchTerm = useCustomStore(useShallow((state) => state.searchTerm));
+  const menuFilter = useCustomStore(useShallow((state) => state.menuFilter));
 
   return useMemo(() => {
-    const filteredPuzzles = puzzlesFromHook;
-    
-    if (activeCategory && searchTerm) {
-      return filteredPuzzles.filter(({ category, title }) =>
-        category === activeCategory && title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+    let filteredPuzzles = [...puzzlesFromHook];
+
+    if (menuFilter === MenuItem.CollectedPuzzles) {
+      filteredPuzzles = filteredPuzzles.filter(({ checked }) => checked);      
+    } else if (menuFilter === MenuItem.ToBePuzzled) {
+      filteredPuzzles = filteredPuzzles.filter(({ checked }) => !checked);
     }
-  
-    if (activeCategory && !searchTerm) {
-      return filteredPuzzles.filter(({ category }) => 
-        category === activeCategory
-      );
+
+    if (activeCategory) {
+      filteredPuzzles = filteredPuzzles.filter(({ category }) => category === activeCategory);
     }
-  
-    if (!activeCategory && searchTerm) {
-      return filteredPuzzles.filter(({ title, category }) =>
-        title.toLowerCase().includes(searchTerm.toLowerCase()) || category.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+
+    if (searchTerm) {
+      const searchTermInlowerCase = searchTerm.toLowerCase();
+
+      filteredPuzzles = filteredPuzzles.filter(
+        ({ title, category }) =>
+          title.toLowerCase().includes(searchTermInlowerCase) || 
+          category.toLowerCase().includes(searchTermInlowerCase)
+      ); 
     }
 
     return filteredPuzzles;
-  }, [puzzlesFromHook, activeCategory, searchTerm]);
+  }, [puzzlesFromHook, activeCategory, searchTerm, menuFilter]);
 };
 
 export default useFilterdPuzzles;
