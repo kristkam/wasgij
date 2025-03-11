@@ -1,6 +1,8 @@
 import { memo } from "react";
 import { motion } from "motion/react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
+import useCustomStore from "../../store/useCustomStore";
+import { Checkmark } from "../../svg";
 
 interface OwnProps<T> {
   listItems: T[];
@@ -18,8 +20,26 @@ const Container = styled(motion.ul)`
   list-style: none;
   padding: 5px;
   margin-top: 5px;
-  width: 150px;
+  width: 175px;
   text-align: start;
+`;
+
+const ListItem = styled(motion.li)`
+  text-align: start;
+  cursor: pointer;
+  padding: 4px 5px;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${(props) => props.theme.colors.accents.primary};
+    }
+  }
+`;
+
+const StyledActiveMenuFilter = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
 `;
 
 const navVariants = {
@@ -40,17 +60,6 @@ const navVariants = {
     },
   },
 };
-const ListItem = styled(motion.li)`
-  text-align: start;
-  cursor: pointer;
-  padding: 4px 5px;
-
-  @media (hover: hover) {
-    &:hover {
-      background-color: ${(props) => props.theme.colors.accents.primary};
-    }
-  }
-`;
 
 const itemVariants = {
   open: {
@@ -63,9 +72,13 @@ const itemVariants = {
     y: -10,
     transition: { duration: 0.5 }
   }
-}
+};
 
 const MenuList = <T extends string>({ listItems, isOpen }: OwnProps<T>) => {
+  const activeMenuFilter = useCustomStore((state) => state.menuFilter)
+  const setMenuFilter = useCustomStore((state) => state.setMenuFilter);
+  const theme = useTheme();
+
   return (
     <Container
       layout
@@ -79,8 +92,16 @@ const MenuList = <T extends string>({ listItems, isOpen }: OwnProps<T>) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.9 }}
           variants={itemVariants}
+          onClick={() => setMenuFilter(item)}
         >
-          {item}
+          {activeMenuFilter === item ? (
+            <StyledActiveMenuFilter>
+              {item}
+              <Checkmark size={{ width: "24", height: "24" }} color={theme.colors.accents.highlight} />
+            </StyledActiveMenuFilter>
+          ) : (
+            item
+          )}
         </ListItem>
       ))}
     </Container>
