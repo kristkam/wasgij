@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import styled from "styled-components";
 import { MenuList } from "..";
@@ -29,15 +29,45 @@ const MenuIcon = styled(motion.svg)`
   }
 `;
 
+// enum MenuItem {
+//   AllPuzzles = "All puzzles",
+//   CollectedPuzzles = "Collected puzzles",
+//   ToBePuzzled = "To be puzzled"
+// }; 
+
+const menuItems = [
+  "All puzzles",
+  "Collected puzzles",
+  "To be puzzled"
+]
+
 const Menu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const menuItems = ["All puzzles", "Collected puzzles", "To be puzzled"];
+ 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+  };
+
+  const handleMenuClick = () => {
+    if (!isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    setIsOpen(!isOpen);
+  };
+
 
   return (
-    <Container>
+    <Container ref={containerRef}>
       <MenuIcon
         viewBox="0 0 40 24"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleMenuClick}
         whileTap={{ scale: 1.5 }}
         whileHover={{ scale: 1.1 }}
       >       
