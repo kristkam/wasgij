@@ -1,14 +1,16 @@
 import { motion } from 'motion/react'
 
 interface OwnProps {
-  size: {
-    width?: string;
-    height?: string;
+  size?: {
+    width: string;
+    height: string;
   },
   color?: string;
 }
 
-const CheckmarkSvg = ({ size: { width = "32", height = "32" }, color = "#6A9F6A"}: OwnProps) => {
+const CheckmarkSvg = ({ size = { width: "32", height: "32" }, color = "#6A9F6A" }: OwnProps) => {
+  const { width, height } = size;
+  
   return (
     <motion.svg
       width={width}

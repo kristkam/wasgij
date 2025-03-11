@@ -29,12 +29,6 @@ const MenuIcon = styled(motion.svg)`
   }
 `;
 
-// enum MenuItem {
-//   AllPuzzles = "All puzzles",
-//   CollectedPuzzles = "Collected puzzles",
-//   ToBePuzzled = "To be puzzled"
-// }; 
-
 const menuItems = [
   "All puzzles",
   "Collected puzzles",
