@@ -6,8 +6,9 @@ import { darkTheme, lightTheme } from './defaultTheme.ts';
 import { GlobalStyles } from './globalStyles.tsx';
 import { StyleSheetManager, ThemeProvider } from 'styled-components';
 import { shouldForwardProp } from './utils/shouldForwardProp.ts';
-import { Login } from './components/';
+// import { Login } from './components/';
 import { DefaultTheme, Themes } from './types/types.ts';
+import App from './App.tsx';
 
 if (process.env.NODE_ENV === 'development') {
   scan({ enabled: true });
@@ -30,7 +31,8 @@ createRoot(document.getElementById('root')!).render(
       <ThemeProvider theme={themeMap[currentTheme]}>
         <GlobalStyles />
         <StyleSheetManager shouldForwardProp={shouldForwardProp}>
-          <Login />
+          {/* <Login /> */}
+          <App /> 
         </StyleSheetManager>
       </ThemeProvider>
     </QueryClientProvider>
