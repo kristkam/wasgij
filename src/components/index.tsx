@@ -5,6 +5,7 @@ export { default as Menu } from './Menu/Menu';
 export { default as MenuList } from './Menu/MenuList';
 export { default as MenuListItem } from './Menu/MenuListItem';
 export { default as Modal } from './Modal/Modal';
+export { default as PuzzleCardList } from './PuzzleCard/PuzzleCardList';
 export { default as PuzzleCard } from './PuzzleCard/PuzzleCard';
 export { default as PuzzleCardContent } from './PuzzleCard/PuzzleCardContent';
 export { default as PuzzleCardHeader } from './PuzzleCard/PuzzleCardHeader';
