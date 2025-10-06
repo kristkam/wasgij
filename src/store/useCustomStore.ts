@@ -1,11 +1,13 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import createSelectors from "./selectors";
 
 type State = {
   searchTerm?: string;
   activeChip: string;
   menuFilter: string;
   theme: string;
+  actions: Action;
 }
 
 type Action = {
@@ -19,14 +21,16 @@ type Action = {
 const useCustomStore = create<State & Action>()(
   devtools((set) => ({
     searchTerm: undefined,
-    setSearchTerm: (searchTerm) => set(() => ({ searchTerm })),
     activeChip: "",
-    setActiveChip: (activeChip) => set(() => ({ activeChip })),
     menuFilter: "All puzzles",
-    setMenuFilter: (menuFilter) => set(() => ({ menuFilter })),
     theme: "dark",
-    setTheme: (theme) => set(() => ({ theme })),
+    actions: {
+      setSearchTerm: (searchTerm) => set(() => ({ searchTerm })),
+      setActiveChip: (activeChip) => set(() => ({ activeChip })),
+      setMenuFilter: (menuFilter) => set(() => ({ menuFilter })),
+      setTheme: (theme) => set(() => ({ theme }))
+    }
   }))
 );
 
-export default useCustomStore;
+export default createSelectors(useCustomStore);
