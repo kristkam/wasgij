@@ -23,7 +23,7 @@ const useCustomStore = create<State & Action>()(
     searchTerm: undefined,
     activeChip: "",
     menuFilter: "All puzzles",
-    theme: "dark",
+    theme: localStorage.getItem("theme") || "dark",
     actions: {
       setSearchTerm: (searchTerm) => set(() => ({ searchTerm })),
       setActiveChip: (activeChip) => set(() => ({ activeChip })),
