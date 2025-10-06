@@ -20,6 +20,7 @@ const Overlay = styled(motion.div)`
 const ModalContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
+  gap: 5px;
   align-items: end;
   background: #F2F2F5;
   padding: 20px;
@@ -32,12 +33,15 @@ const CloseButton = styled(Button)`
   font-size: 24px;
   width: 3rem;
   cursor: pointer;
-  margin: 0;
+  margin-bottom: 5px;
 `;
 
 const StyledImage = styled.img`
   width: 100%;
   height: 70vh;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
 
   @media (max-width: 768px) {
     height: 100%;
@@ -60,12 +64,18 @@ const Modal = ({ imageUrl, closeModal }: OwnProps) => {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.8 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+        onClick={(e) => e.stopPropagation()}
       >
         <CloseButton onClick={closeModal}>✕</CloseButton>
-        <StyledImage src={imageUrl} onClick={closeModal} />
+        <StyledImage 
+          src={imageUrl} 
+          onClick={closeModal}
+          loading="eager"
+          decoding="async"
+        />
       </ModalContainer>
     </Overlay>
   );
 };
+
 export default Modal;

@@ -3,6 +3,7 @@ import { PuzzleCardHeader, PuzzleCardContent, Modal } from '../../components';
 import ToggleSwitch from "../ToogleSwitch/ToggleSwitch";
 import styled from "styled-components";
 import useUpdatePuzzle from "../../hooks/useUpdatePuzzle";
+import useImagePreload from "../../hooks/useImagePreload";
 import { AnimatePresence } from "motion/react";
 import { Puzzle } from "../../types/types";
 
@@ -25,9 +26,11 @@ const Card = styled.div`
 `;
 
 const PuzzleCard = ({ puzzle }: OwnProps) => {
-  const { id, title, category, image_url, checked } = puzzle;
+  const { id, title, category, image, preview_image, checked } = puzzle;
   const [open, setOpen] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+
+  const { hasError: previewError } = useImagePreload(preview_image);
 
   const { mutate } = useUpdatePuzzle();
 
@@ -35,8 +38,10 @@ const PuzzleCard = ({ puzzle }: OwnProps) => {
     mutate({ id, newData: { ...puzzle, checked: !checked }}), [mutate, id, puzzle, checked]);
 
   const openImage = () => {
-    setOpen(!open);
-    setImageUrl(image_url);
+    if (preview_image && !previewError) {
+      setPreviewImage(preview_image);
+      setOpen(true);
+    }
   }
 
   return (
@@ -49,7 +54,7 @@ const PuzzleCard = ({ puzzle }: OwnProps) => {
           />
         </PuzzleCardHeader>
         <PuzzleCardContent 
-          imageProps={{ url: image_url, alt: title }}
+          imageProps={{ url: image, alt: title }}
           onClick={openImage}
         />
       </Card>
@@ -57,7 +62,7 @@ const PuzzleCard = ({ puzzle }: OwnProps) => {
       <AnimatePresence>
         {open && ( 
           <Modal
-            imageUrl={imageUrl}
+            imageUrl={previewImage}
             closeModal={() => setOpen(false)}
           />
         )}
