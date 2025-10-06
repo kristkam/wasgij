@@ -23,12 +23,13 @@ const themeMap: Record<Themes, DefaultTheme> = {
 
 // this will not work as of now as of now since main component is not updated when theme is changed
 // therefore we would need to pass the ThemeProvider down to children
+// const theme = useStore.use.theme();
 const currentTheme = (localStorage.getItem('theme') as Themes) || "dark";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={themeMap[currentTheme]}>
+      <ThemeProvider theme={themeMap[currentTheme as Themes]}>
         <GlobalStyles />
         <StyleSheetManager shouldForwardProp={shouldForwardProp}>
           {/* <Login /> */}

@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { 
   SearchField, 
   LoadingSpinner, 
-  PuzzleCategoryList, 
-  PuzzleCard,
+  PuzzleCategoryList,
+  PuzzleCardList,
   Menu,
   ThemeSwitcher,
   ErrorMessage,
@@ -13,7 +13,7 @@ import useFilterdPuzzles from "./hooks/useFilteredPuzzles";
 import { getKeys } from "./utils/getKeys";
 import styled from "styled-components";
 import { createMap } from "./utils/createMap";
-import useWindowResize from "./hooks/useWindowResize";
+// import { uploadFirebaseData } from "./utils/uploadFirebaseData";
 
 const AppContainer = styled.div`
   min-height: 100%;
@@ -24,16 +24,6 @@ const Title = styled.h1`
   font-size: 2rem;
   font-weight: bold;
   margin: 20px 0;
-`;
-
-const PuzzleContainer = styled.div<{ containerHeight: number }>`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 10px 0;
-  height: ${(props) => `${props.containerHeight}px`};
-  overflow-y: auto;
-  border: 1px solid ${(props) => props.theme.colors.background.surface};
-  border-radius: 6px;
 `;
 
 const Container = styled.div`
@@ -86,18 +76,15 @@ function App() {
     getKeys(puzzleMap),[puzzleMap]);
 
   const filteredPuzzles = useFilterdPuzzles(puzzleData);
-  const containerHeight = useWindowResize();
-
-  const memoizedContainerHeight = useMemo(() => containerHeight - 200 , [containerHeight]);
 
   const loadingData = (isPending || isLoading);
 
-  if (isError) {
-    return <span>Error: {error.message}</span>
-  };
-
   if (process.env.NODE_ENV === "development") {
     console.log("Firebase Project ID:", import.meta.env.VITE_REACT_APP_FIREBASE_PROJECT_ID);
+  };
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
   };
 
   return (
@@ -105,7 +92,7 @@ function App() {
       <Title>Wasgij</Title>
       <ThemeSwitcher />
 
-      {/* <Button onClick={uploadFirebaseData}>Upload data to firebase</Button> */}
+      {/* <Button onClick={() => uploadFirebaseData("wasgij_puzzles")}>Upload data to firebase</Button> */}
       {!isError && <ErrorMessage isError={isError} error={error} />}
       {loadingData && <LoadingSpinner />}
       
@@ -121,14 +108,7 @@ function App() {
           </MenuSearchFieldContainer>
         </TopContainer>
 
-        <PuzzleContainer containerHeight={memoizedContainerHeight}>
-          {filteredPuzzles.map((puzzle) => (
-            <PuzzleCard 
-              key={puzzle.id} 
-              puzzle={puzzle} 
-            />
-          ))}
-        </PuzzleContainer>
+        <PuzzleCardList puzzleList={filteredPuzzles} />
       </Container>
     </AppContainer>
   );
