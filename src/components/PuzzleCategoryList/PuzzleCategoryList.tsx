@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import Chip from "../Chip/Chip";
+import { Chip } from "../../components";
 import { Puzzle, PuzzleCategory } from "../../types/types";
-import useCustomStore from "../../store/useCustomStore";
+import useStore from "../../store/useCustomStore";
+import styled from "styled-components";
 
 interface OwnProps {
   puzzleCategories: PuzzleCategory[];
@@ -27,10 +27,10 @@ const StyledSpan = styled.span`
   margin-left: 8px;
 `;
 
-const PuzzleCategoryList = ({ puzzleCategories, puzzlesGroupedByCategory }: OwnProps) => { 
-  const activeChip = useCustomStore(state => state.activeChip);
-  const setActiveChip = useCustomStore(state => state.setActiveChip);
-  
+const PuzzleCategoryList = ({ puzzleCategories, puzzlesGroupedByCategory }: OwnProps) => {
+  const activeChip = useStore.use.activeChip();
+  const { setActiveChip } = useStore.use.actions();
+
   function handleSetActiveChip(category: PuzzleCategory) {
     setActiveChip(category !== activeChip ? category : "");
   };

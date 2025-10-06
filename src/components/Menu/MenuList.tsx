@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { motion } from "motion/react";
-import styled, { useTheme } from "styled-components";
-import useCustomStore from "../../store/useCustomStore";
+import useStore from "../../store/useCustomStore";
 import { Checkmark } from "../../svg";
+import styled, { useTheme } from "styled-components";
 
 interface OwnProps<T> {
   listItems: T[];
@@ -75,8 +75,8 @@ const itemVariants = {
 };
 
 const MenuList = <T extends string>({ listItems, isOpen }: OwnProps<T>) => {
-  const activeMenuFilter = useCustomStore((state) => state.menuFilter)
-  const setMenuFilter = useCustomStore((state) => state.setMenuFilter);
+  const activeMenuFilter = useStore.use.menuFilter();
+  const { setMenuFilter } = useStore.use.actions();
   const theme = useTheme();
 
   return (
