@@ -4,7 +4,8 @@ export type Puzzle = {
   id: string;
   title: string;
   category: PuzzleCategory;
-  image_url: string;
+  image: string;
+  preview_image: string;
   checked: boolean;
 };
 

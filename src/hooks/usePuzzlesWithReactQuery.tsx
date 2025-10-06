@@ -4,12 +4,13 @@ import { db } from "../firebaseConfig";
 // import useCustomStore from "../store/useCustomStore";
 
 async function fetchPuzzles() {
-  const querySnapshot = await getDocs(collection(db, "puzzles"));
+  const querySnapshot = await getDocs(collection(db, "wasgij_puzzles"));
   return querySnapshot.docs.map((doc) => ({ 
     id: doc.id,
     title: doc.data().title,
     category: doc.data().category,
-    image_url: doc.data().image_url,
+    image: doc.data().image,
+    preview_image: doc.data().preview_image,
     checked: doc.data().checked,
     ...doc.data() 
   }));
@@ -23,7 +24,7 @@ function usePuzzlesWithReactQuery() {
 
   return useQuery({
     // queryKey: ["puzzles", filters],
-    queryKey: ["puzzles"],
+    queryKey: ["wasgij_puzzles"],
     queryFn: fetchPuzzles,
     staleTime: 1000 * 60 * 5, // ⏳ Cache data for 5 minutes
     refetchOnWindowFocus: false, // 🚀 Avoid re-fetching on tab switch

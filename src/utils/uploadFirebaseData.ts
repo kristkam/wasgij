@@ -1,14 +1,12 @@
 import { db } from "../firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
-import { puzzles } from "./puzzles";
+import { wasgij_puzzles_final } from "./wasgij_puzzle_final";
 
-export const uploadFirebaseData = async () => {
+export const uploadFirebaseData = async (collectionName: string) => {
   try {
-    const collectionName = "puzzles";
-    
-    for (const key in puzzles) {
+    for (const key in wasgij_puzzles_final) {
       const puzzle = { 
-        ...puzzles[key], 
+        ...wasgij_puzzles_final[key], 
         checked: false 
       };
 

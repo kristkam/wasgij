@@ -9,7 +9,7 @@ type UpdatePuzzle = {
 };
 
 const updatePuzzle = async ({ id, newData }: UpdatePuzzle) => {
-  const docRef = doc(db, "puzzles", id);
+  const docRef = doc(db, "wasgij_puzzles", id);
   await updateDoc(docRef, newData);
 }
 
@@ -19,7 +19,7 @@ function useUpdatePuzzle() {
   return useMutation({
     mutationFn: updatePuzzle,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["puzzles"]}); // Ensure fresh data from Firestore
+      queryClient.invalidateQueries({queryKey: ["wasgij_puzzles"]}); // Ensure fresh data from Firestore
     },
   });
   
