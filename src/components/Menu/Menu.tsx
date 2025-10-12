@@ -1,4 +1,4 @@
-import { memo, useRef, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import styled from "styled-components";
 import { MenuList } from "..";
@@ -39,6 +39,10 @@ const Menu = () => {
   const [isOpen, setIsOpen] = useState(false);
  
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleItemSelect = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -82,7 +86,7 @@ const Menu = () => {
         />
       </MenuIcon>
       <AnimatePresence>
-        {isOpen && <MenuList isOpen={isOpen} listItems={menuItems} />}
+        {isOpen && <MenuList isOpen={isOpen} listItems={menuItems} onItemSelect={handleItemSelect} />}
     </AnimatePresence>
     </Container>
   );

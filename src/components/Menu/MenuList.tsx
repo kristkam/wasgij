@@ -7,6 +7,7 @@ import styled, { useTheme } from "styled-components";
 interface OwnProps<T> {
   listItems: T[];
   isOpen: boolean;
+  onItemSelect?: () => void;
 }
 
 const Container = styled(motion.ul)`
@@ -76,7 +77,7 @@ const itemVariants = {
   }
 };
 
-const MenuList = <T extends string>({ listItems, isOpen }: OwnProps<T>) => {
+const MenuList = <T extends string>({ listItems, isOpen, onItemSelect }: OwnProps<T>) => {
   const activeMenuFilter = useStore.use.menuFilter();
   const { setMenuFilter } = useStore.use.actions();
   const [isPending, startTransition] = useTransition();
@@ -86,6 +87,7 @@ const MenuList = <T extends string>({ listItems, isOpen }: OwnProps<T>) => {
     startTransition(() => {
       setMenuFilter(item);
     });
+    onItemSelect?.();
   };
 
   
