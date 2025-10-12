@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useTransition } from "react";
 import { MagnifyingGlass } from "../../svg";
 import useStore from '../../store/useCustomStore';
 import styled from "styled-components";
@@ -10,7 +10,7 @@ const SearchContainer = styled.div`
 `;
 
 const Input = styled.input`
-  padding: 6px 6px 6px 42px; /* Add left padding for the icon */
+  padding: 6px 6px 6px 42px;
   font-size: 1rem;
   border: 1px solid ${(props) => props.theme.colors.background.surface};
   border-radius: 6px;
@@ -23,7 +23,7 @@ const Input = styled.input`
   @media (max-width: 768px) {
     width: 300px;
     height: 40px;
-    padding: 8px 8px 8px 46px; /* Adjust padding for mobile */
+    padding: 8px 8px 8px 46px;
   }
 
   &::placeholder {
@@ -42,20 +42,24 @@ const IconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none; /* Allows clicking through the icon to focus the input */
+  pointer-events: none;
   z-index: 1;
 
   @media (max-width: 768px) {
-    left: 14px; /* Slightly more space on mobile for better visual balance */
+    left: 14px;
   }
 `;
 
-// add magnifying glass icon
 const SearchField = () => {
   const { setSearchTerm } = useStore.use.actions();
+  const [isPending, startTransition] = useTransition();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
+
+    startTransition(() => {
+      setSearchTerm(event.target.value);
+    });
   };
 
   return (
@@ -67,6 +71,7 @@ const SearchField = () => {
         type="search"
         onChange={handleChange}
         placeholder={"Search..."}
+        style={{ opacity: isPending ? 0.3 : 1 }}
       />
     </SearchContainer>
   );

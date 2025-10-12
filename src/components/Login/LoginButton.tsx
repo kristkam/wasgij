@@ -5,7 +5,7 @@ import styled from "styled-components";
 const StyledMotionButton = styled(motion.button)`
   margin-top: 0.5rem;
   background-color: ${(props) => props.theme.colors.accents.primary};
-  color: white;
+  color: ${(props) => props.theme.colors.background.primary};
   padding: 0.5rem;
   border: none;
   border-radius: 6px;

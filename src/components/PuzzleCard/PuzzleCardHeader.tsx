@@ -14,7 +14,7 @@ const HeaderContainer = styled.div`
 `;
 
 const CategoryTitle = styled.h2`
-  color: #ffc107;
+  color: ${(props) => props.theme.colors.accents.title};
   text-transform: capitalize;
 `;
 

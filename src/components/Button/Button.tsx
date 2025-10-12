@@ -9,10 +9,9 @@ type AppProps = {
 };
 
 const StyledButton = styled.button`
-  background-color: ${(props) => props.theme.colors.accents.primary};
+  background-color: ${(props) => props.theme.colors.background.surface};
   color: ${(props) => props.theme.colors.text.primary};
   border: none;
-  /* margin-top: 20px; */
   padding: 6px 10px;
   border-radius: 5px;
   font-size: 1rem;
@@ -22,13 +21,14 @@ const StyledButton = styled.button`
 
   @media (hover: hover) {
     &:hover {
-      background-color: ${(props) => props.theme.colors.background.surface};
-      color: ${(props) => props.theme.colors.accents.highlight};
+      background-color: ${(props) => props.theme.colors.accents.primary};
+      color: ${(props) => props.theme.colors.background.surface};
     }
   }
 
   &:active {
     background-color: ${(props) => props.theme.colors.accents.highlight};
+    color: ${(props) => props.theme.colors.background.primary};
   }
 
   &:disabled {

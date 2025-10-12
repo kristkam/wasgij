@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Button } from "..";
 import styled from "styled-components";
+import { Close } from "../../svg";
 
 interface OwnProps {
   imageUrl: string;
@@ -22,7 +23,7 @@ const ModalContainer = styled(motion.div)`
   flex-direction: column;
   gap: 5px;
   align-items: end;
-  background: #F2F2F5;
+  background: #f2f2f5;
   padding: 20px;
   border-radius: 10px;
   max-width: 800px;
@@ -66,13 +67,10 @@ const Modal = ({ imageUrl, closeModal }: OwnProps) => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <CloseButton onClick={closeModal}>✕</CloseButton>
-        <StyledImage 
-          src={imageUrl} 
-          onClick={closeModal}
-          loading="eager"
-          decoding="async"
-        />
+        <CloseButton onClick={closeModal}>
+          <Close size={{ width: "20px", height: "20px" }} crossSize="sm" />
+        </CloseButton>
+        <StyledImage src={imageUrl} onClick={closeModal} loading="eager" decoding="async" />
       </ModalContainer>
     </Overlay>
   );
