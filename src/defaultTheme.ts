@@ -1,29 +1,101 @@
 export const lightTheme = {
   colors: {
     background: {
-      primary: "#D6D6E0", // Softer off-white for a more comfortable look
-      secondary: "#F2F2F5", // Less harsh secondary background
-      surface: "#E5E5EC", // Muted surface color for UI elements
+      primary: "#F8FAFC", // Cool light blue-gray background - crisp and clean
+      secondary: "#F1F5F9", // Slightly deeper cool gray - for subtle layering
+      surface: "#F3F2F0", // Cool light slate - for cards and elevated elements
+      // surface: "#E2E8F0", // Cool light slate - for cards and elevated elements
     },
     accents: {
-      primary: "#C29AD6", // Softer pastel purple for interactive elements
-      secondary: "#D6A8A2", // Gentle warm tone for secondary buttons, hovers
-      highlight: "#C0B6A6", // Muted beige/taupe for highlights without being too bold
-      success: "#85C785" // Gentle green with a fresh feel
+      primary: "#3B82F6", // Vibrant blue - cool primary action color
+      secondary: "#6366F1", // Indigo - cool secondary interaction color
+      highlight: "#06B6D4", // Cyan/teal - cool highlight and success color
+      success: "#06B6D4", // Cyan - cool positive color
+      title: "#334155" // Cool dark slate - strong and readable
     },
     text: {
-      primary: "#4A4A55", // Soft dark gray for main text (easier on the eyes)
-      secondary: "#6A6A78", // Mid-gray for metadata, subtext
-      disabled: "#A8A8B5", // Lighter gray for disabled text, placeholders
+      primary: "#1E293B", // Deep cool slate - main text, crisp and readable
+      secondary: "#64748B", // Medium cool gray - secondary text
+      disabled: "#CBD5E1", // Light cool gray - disabled states
     },
     status: {
-      success: "#85C785", // Lighter green for success indicators
-      error: "#D68A8A",   // Softer red for errors
-      warning: "#C6A376"  // Muted warm tone for warnings
+      success: "#06B6D4", // Cyan - cool, modern success indicator
+      error: "#EF4444",   // Cool red - clear error indication
+      warning: "#F59E0B"  // Amber - neutral warning tone
     },
     overlay: {
-      primary: "rgba(242, 242, 245, 0.5)", // Softer light overlay
-      secondary: "rgba(229, 229, 236, 0.8)", // Gentle overlay for depth
+      primary: "rgba(51, 65, 85, 0.15)", // Cool slate overlay - using the title color for consistency
+      secondary: "rgba(229, 181, 157, 0.8)", // Warm peach overlay - using the secondary accent color
+    },
+  },
+  typography: {
+    fontSize: '16px',
+    fontFamily: `'Arial', sans-serif`,
+  }
+};
+
+export const lightTheme2 = {
+  colors: {
+    background: {
+      primary: "#FEFEFE", // Pure white for maximum clarity
+      secondary: "#F9F7F4", // Warm off-white with subtle beige undertone
+      surface: "#F0EDE8", // Light warm gray for cards and containers
+    },
+    accents: {
+      primary: "#D97706", // Warm amber/orange - main interactive color
+      secondary: "#EAB308", // Bright yellow - hover states and secondary actions  
+      highlight: "#EAB308", // Bright yellow - for toggle balls and highlights
+      success: "#EAB308", // Bright yellow for success states
+      title: "#1F2937" // Rich dark gray for excellent readability
+    },
+    text: {
+      primary: "#1F2937", // Rich dark gray for excellent readability
+      secondary: "#6B7280", // Medium gray for secondary text
+      disabled: "#9CA3AF", // Light gray for disabled states
+    },
+    status: {
+      success: "#EAB308", // Bright yellow for success states
+      error: "#DC2626",   // Rich red for errors
+      warning: "#D97706"  // Warm amber for warnings (consistent with primary)
+    },
+    overlay: {
+      primary: "rgba(0, 0, 0, 0.1)", // Subtle dark overlay for modals
+      secondary: "rgba(229, 181, 157, 0.8)", // Warm peach overlay - using the secondary accent color
+    },
+  },
+  typography: {
+    fontSize: '16px',
+    fontFamily: `'Arial', sans-serif`,
+  }
+};
+
+export const lightTheme3 = {
+  colors: {
+    background: {
+      primary: "#E9E6D1", // Soft cream - main canvas color
+      secondary: "#F5F3E8", // Lighter cream - for subtle layering
+      surface: "#F0EDE4", // Warm off-white - for cards and elevated elements
+    },
+    accents: {
+      primary: "#A9D4DA", // Soft blue-gray - main interactive color
+      secondary: "#E3B59D", // Warm peach - secondary interactions and hover states
+      highlight: "#C2DEC5", // Soft sage green - highlights and success states
+      success: "#C2DEC5", // Sage green - positive actions
+      title: "#A96030" // Rich brown - strong and readable for titles
+    },
+    text: {
+      primary: "#A96030", // Rich brown - main text, warm and readable
+      secondary: "#8B6F47", // Medium brown - secondary text
+      disabled: "#C4B299", // Light brown - disabled states
+    },
+    status: {
+      success: "#C2DEC5", // Soft sage green - gentle success indicator
+      error: "#D4A574",   // Muted orange-brown - gentle error indication
+      warning: "#E3B59D"  // Warm peach - gentle warning tone
+    },
+    overlay: {
+      primary: "rgba(169, 96, 48, 0.15)", // Brown overlay - using the title color for consistency
+      secondary: "rgba(229, 181, 157, 0.8)", // Warm peach overlay - using the secondary accent color
     },
   },
   typography: {
@@ -44,7 +116,8 @@ export const darkTheme = {
       primary: "#8F6A9F", // interactive elements
       secondary: "#A67C75", // secondary buttons, hover states, or subtle UI details.
       highlight: "#C2B8A3", // use sparingly for notices, warnings, highlights, or key information that needs attention
-      success: "#6A9F6A"
+      success: "#6A9F6A",
+      title: "#ffc107"
     },
     text: {
       primary: "#E0E0E0", // main

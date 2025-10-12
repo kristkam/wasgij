@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useTransition } from "react";
 import { motion } from "motion/react";
 import useStore from "../../store/useCustomStore";
 import { Checkmark } from "../../svg";
@@ -14,7 +14,7 @@ const Container = styled(motion.ul)`
   z-index: 1000;
   top: 100%;
   left: 0;
-  background-color: ${(props) => props.theme.colors.text.disabled};
+  background-color: ${(props) => props.theme.colors.background.secondary};
   border-radius: 6px;
   color: ${(props) => props.theme.colors.text.primary};
   list-style: none;
@@ -28,10 +28,12 @@ const ListItem = styled(motion.li)`
   text-align: start;
   cursor: pointer;
   padding: 4px 5px;
+  border-radius: 4px;
 
   @media (hover: hover) {
     &:hover {
       background-color: ${(props) => props.theme.colors.accents.primary};
+      color: ${(props) => props.theme.colors.background.primary};
     }
   }
 `;
@@ -77,14 +79,23 @@ const itemVariants = {
 const MenuList = <T extends string>({ listItems, isOpen }: OwnProps<T>) => {
   const activeMenuFilter = useStore.use.menuFilter();
   const { setMenuFilter } = useStore.use.actions();
+  const [isPending, startTransition] = useTransition();
   const theme = useTheme();
 
+  const handleListItemClick = (item: T) => {
+    startTransition(() => {
+      setMenuFilter(item);
+    });
+  };
+
+  
   return (
     <Container
       layout
       initial={{ opacity: 0, y: -10 }}
       animate={isOpen ? "open" : "closed"}
       variants={navVariants}
+      style={{ opacity: isPending ? 0.9 : 1 }}
     >
       {listItems.map((item) => (
         <ListItem
@@ -92,7 +103,7 @@ const MenuList = <T extends string>({ listItems, isOpen }: OwnProps<T>) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.9 }}
           variants={itemVariants}
-          onClick={() => setMenuFilter(item)}
+          onClick={() => handleListItemClick(item)}
         >
           {activeMenuFilter === item ? (
             <StyledActiveMenuFilter>

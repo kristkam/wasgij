@@ -6,9 +6,11 @@ const ListItem = styled(motion.li)`
   text-align: start;
   cursor: pointer;
   padding: 4px 5px;
+  border-radius: 4px;
 
   &:hover {
     background-color: ${(props) => props.theme.colors.accents.secondary};
+    color: ${(props) => props.theme.colors.background.primary};
   }
 `;
 

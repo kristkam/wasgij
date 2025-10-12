@@ -19,13 +19,14 @@ const StyledChip = styled.div<{ isActive: boolean }>`
   align-content: center;
 
   ${(props) => props.isActive && `
-    background-color: ${props.theme.colors.accents.success};
+    background-color: ${props.theme.colors.accents.success}; /* Sage green when active */
+    color: ${props.theme.colors.background.primary}; /* Light cream text for contrast */
   `}
 
   @media (hover: hover) {
     &:hover {
       background-color: ${(props) => props.theme.colors.accents.primary};
-      color: ${(props) => props.theme.colors.text.primary};
+      color: ${(props) => props.theme.colors.background.primary};
     }
   }
 

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useDeferredValue, useMemo } from "react";
 import { 
   SearchField, 
   LoadingSpinner, 
@@ -76,7 +76,7 @@ function App() {
     getKeys(puzzleMap),[puzzleMap]);
 
   const filteredPuzzles = useFilterdPuzzles(puzzleData);
-
+  const defferedFilteredPuzzles = useDeferredValue(filteredPuzzles);
   const loadingData = (isPending || isLoading);
 
   if (process.env.NODE_ENV === "development") {
@@ -108,7 +108,7 @@ function App() {
           </MenuSearchFieldContainer>
         </TopContainer>
 
-        <PuzzleCardList puzzleList={filteredPuzzles} />
+        <PuzzleCardList puzzleList={defferedFilteredPuzzles} />
       </Container>
     </AppContainer>
   );

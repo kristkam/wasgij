@@ -3,7 +3,7 @@ import { GlobalStyles } from "../../globalStyles";
 import useCustomStore from "../../store/useCustomStore";
 import { shouldForwardProp } from "../../utils/shouldForwardProp";
 import { DefaultTheme, Themes } from "../../types/types";
-import { darkTheme, lightTheme } from "../../defaultTheme";
+import { darkTheme, lightTheme, lightTheme2, lightTheme3 } from "../../defaultTheme";
 
 interface OwnProps {
   children?: React.ReactNode;  
