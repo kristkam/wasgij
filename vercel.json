@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/tododos",
+      "destination": "https://tododos-tawny.vercel.app"
+    },
+    {
+      "source": "/tododos/:path*",
+      "destination": "https://tododos-tawny.vercel.app/:path*"
+    }
+  ]
+}
